@@ -7,8 +7,10 @@ const headsImage = "assets/images/penny-heads.jpg"
 const tailsImage = "assets/images/penny-tails.jpg"
 
 // get image, buttons, and orange text
+const imageContainer = document.querySelector("#image-container")
 const pennyImage = document.querySelector("#pennyImage")
 const flipButton = document.querySelector("#flip")
+const flip10Button = document.querySelector("#flipTen")
 const clearButton = document.querySelector("#clear")
 const resultsText = document.querySelector("#message")
 
@@ -19,22 +21,54 @@ const headsPercentDisplay = document.querySelector("#heads-percent")
 const tailsPercentDisplay = document.querySelector("#tails-percent")
 
 // flip button function
-flipButton.addEventListener('click', function() 
+flipButton.addEventListener('click', function()
 {
     // flip coin
-    if (Math.random() > 0.5)
+    let outcome = flip()
+
+    clearImages()
+
+    // make image
+    let image = document.createElement("img")
+    if (outcome == "heads")
     {
-        // heads
-        headsCount++
-        pennyImage.src = headsImage
-        resultsText.textContent = "You flipped heads!"
+        image.src = headsImage
     }
     else
     {
-        // tails
-        tailsCount++
-        pennyImage.src = tailsImage
-        resultsText.textContent = "You flipped tails!"
+        image.src = tailsImage
+    }
+    // set image
+    imageContainer.append(image)
+
+    updateDisplay()
+})
+
+// flip x10
+flip10Button.addEventListener('click', function()
+{
+    clearImages()
+    
+    // set array
+    let images = []
+
+    // flip 10 times
+    for (let i = 0; i < 10; i++)
+    {
+        let outcome = flip()
+
+        // make image
+        let img = document.createElement("img")
+        if (outcome == "heads")
+        {
+            img.src = headsImage
+        }
+        else
+        {
+            img.src = tailsImage
+        }
+        
+        imageContainer.append(img)
     }
 
     updateDisplay()
@@ -46,8 +80,49 @@ clearButton.addEventListener('click', function()
     headsCount = 0
     tailsCount = 0
     updateDisplay()
+    clearImages()
+
+    // set coin image so it's not just empty
+    let img = document.createElement("img")
+    img.src = headsImage
+    imageContainer.append(img)
 })
 
+// functions
+// flip coin
+function flip() 
+{
+    // flip coin
+    if (Math.random() > 0.5)
+    {
+        // heads
+        headsCount++
+        //pennyImage.src = headsImage
+        resultsText.textContent = "You flipped heads!"
+        return "heads"
+    }
+    else
+    {
+        // tails
+        tailsCount++
+        //pennyImage.src = tailsImage
+        resultsText.textContent = "You flipped tails!"
+        return "tails"
+    }
+}
+
+// clear coin images
+function clearImages() 
+{
+    let oldImages = imageContainer.children
+    for (let i = oldImages.length - 1; i >= 0; i--)
+    {
+        imageContainer.removeChild(oldImages[i])
+    }
+}
+
+
+// update counter displays
 function updateDisplay() 
 {
     // get total flips
@@ -63,6 +138,11 @@ function updateDisplay()
         // set percentages
         headsPercentDisplay.textContent = Math.round((headsCount / totalFlips) * 100) + "%"
         tailsPercentDisplay.textContent = Math.round((tailsCount / totalFlips) * 100) + "%"
+    }
+    else
+    {
+        headsPercentDisplay.textContent = "0%"
+        tailsPercentDisplay.textContent = "0%"
     }
 }
 

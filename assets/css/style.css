@@ -49,6 +49,14 @@ button {
     background: linear-gradient(to bottom left, darkblue, lightblue);
 }
 
+#flipTen {
+    background: linear-gradient(to bottom left, lightGreen, white);
+}
+
+#flipTen:hover {
+    background: linear-gradient(to bottom left, darkGreen, lightGreen);
+}
+
 #clear {
     background: linear-gradient(to bottom left, orange, white);
 }
